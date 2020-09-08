@@ -1,0 +1,50 @@
+﻿@using Data;
+@{
+    ViewBag.Controller = "FilmSession";
+}
+@(Html.Kendo().Grid<FilmSession>()
+                                            .Name("Grid")
+                                            .Columns(columns =>
+                                            {
+                                                columns.Bound(m => m.Id).Width(100).Hidden();
+                                                columns.Bound(m => m.Name);
+                                                columns.Bound(m => m.DateTime).Format("{0:dd.MM.yyyy HH:mm}");
+                                                columns.Command(command =>
+                                                {
+                                                    command.Edit().Text(" ").UpdateText("Обновить").CancelText("Отмена");
+                                                    command.Destroy().Text(" ");
+                                                }).Width(160);
+                                            })
+                                            .ToolBar(toolbar =>
+                                            {
+                                                 toolbar.Create().Text("Добавить");
+                                            })
+
+                                            .Editable(editable => editable.Mode(GridEditMode.PopUp).Window(window => window.Width(880)))
+                                            .Pageable(pageable => pageable.Refresh(true).PageSizes(new int[] { 10, 25, 50, 100 }))
+                                            .Sortable(sortable => sortable.SortMode(GridSortMode.MultipleColumn))
+                                            .Filterable()
+                                            .Resizable(resizeable => resizeable.Columns(true))
+                                            .Scrollable(scroll => scroll.Height("auto"))
+                                            .ColumnMenu()
+                                            .Reorderable(reorderable => reorderable.Columns(true))
+                                            .DataSource(dataSource => dataSource
+                                                .Ajax()
+                                                .PageSize(25)
+                                                .Model(model => model.Id(p => p.Id))
+                                                .Create(create => create.Action("Create", ViewBag.Controller))
+                                                .Read(read => read.Action("Read", ViewBag.Controller))
+                                                .Update(update => update.Action("Update", ViewBag.Controller))
+                                                .Destroy(destroy => destroy.Action("Destroy", ViewBag.Controller))
+                                                .Sort(sort => sort.Add(p => p.DateTime))
+                                            )
+                                            .Events(events => events.DataBound("onDataBound").Save("onSave").Cancel("onCancel"))
+    )
+
+<script>
+    function onDataBound(e) { }
+
+    function onSave(e) { }
+
+    function onCancel(e) { }
+</script>

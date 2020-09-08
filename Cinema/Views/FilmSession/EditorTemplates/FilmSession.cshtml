@@ -1,0 +1,30 @@
+﻿@using Data
+@model FilmSession
+
+
+<div class="k-edit-label">
+    @Html.LabelFor(model => model.Name)
+</div>
+<div class="k-edit-field">
+    @Html.Kendo().TextBoxFor(model => model.Name).HtmlAttributes(new { style = "width: 100%" })
+</div>
+
+<div class="k-edit-label">
+    @Html.LabelFor(model => model.DateTime)
+</div>
+<div class="k-edit-field ">
+    @(Html.Kendo().DateTimePickerFor(model=>model.DateTime).Culture("ru-RU").Format("{0:dd.MM.yyyy HH:mm}")
+    )  
+</div>
+
+<script>
+     kendo.culture("ru-RU");
+     var culture = kendo.culture();
+     culture.calendar.patterns.d = "dd.MM.yyyy"; 
+     culture.calendar.patterns.D = "dd.MM.yyyy"; 
+     culture.calendar.patterns.t = "HH:mm"; 
+     culture.calendar.patterns.T = "HH:mm"; 
+     culture.calendar.patterns.g = "dd.MM.yyyy HH:mm";
+     culture.calendar.patterns.G = "dd.MM.yyyy HH:mm";
+     culture.numberFormat.currency.symbol = "$";
+</script>
